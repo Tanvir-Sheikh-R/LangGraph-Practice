@@ -32,5 +32,6 @@ if user_input:
     st.session_state.message.append({'role': 'assistant', 'msg':  response})
             
 
+
 print()
 print(st.session_state)
