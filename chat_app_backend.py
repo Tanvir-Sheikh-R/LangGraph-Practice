@@ -7,6 +7,13 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
 
+
+def get_summary_for_chatHead(user: str, ai:str):
+    prompt = f"user asked: {user}, AI answered: {ai}, give a 1 line short summery from this conversation to use in title of this conversation"
+    resposce = llm.invoke(prompt)
+    return resposce.content
+
+
 class MessageState(TypedDict):
     message : Annotated[list[BaseMessage], add_messages]
 
@@ -25,3 +32,13 @@ graph.add_edge('chat_message', END)
 
 checkpointer = InMemorySaver()
 chat = graph.compile(checkpointer=checkpointer)
+
+# responce = chat.invoke(
+#             {'message': '2+2'}, 
+#             config={'configurable': {'thread_id': '--1--'}}, 
+#             )
+
+
+# responce = chat.get_state({'configurable': {'thread_id': '--1--'}})
+
+# print(responce.values.get('message')[1].content)
