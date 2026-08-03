@@ -63,8 +63,7 @@ with st.sidebar:
 
         if conversation:
             user = conversation[0].content
-            ai = conversation[1].content
-            summery = get_summary_for_chatHead(user, ai)
+            summery = get_summary_for_chatHead(user)
             
 
             if st.button(summery, width='stretch'):
@@ -80,18 +79,8 @@ with st.sidebar:
                     temp_message.append({'role': role, 'msg': msg.content})
 
                 st.session_state['message'] = temp_message
-
             
 
-
-# import os
-
-# path = "src/image/logo_green.svg"
-# st.write("CWD:", os.getcwd())
-# st.write("Exists:", os.path.exists(path))
-# st.write("Files in src/image:", os.listdir("src/image") if os.path.exists("src/image") else "src/image not found")
-
-# st.image(path, width=80)
 
 st.image("src/logo_green.svg", width=80)
 st.markdown("""# <h1>Personal AI Assistant</h1>""", unsafe_allow_html=True)
@@ -126,7 +115,7 @@ if user_input:
                 stream_mode='messages'
             ))
     st.session_state.message.append({'role': 'assistant', 'msg':  response})
-            
+    st.rerun()
 
 
 # print()

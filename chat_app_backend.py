@@ -8,8 +8,16 @@ from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage
 
 
-def get_summary_for_chatHead(user: str, ai:str):
-    prompt = f"user asked: {user}, AI answered: {ai}, give a 2-5 word short summery from this conversation to using in title"
+def get_summary_for_chatHead(user: str):
+    prompt = f"""Generate a short, descriptive title for this conversation based on the user's message below. 
+                Rules:
+                - Maximum 5 words
+                - No quotation marks, punctuation, or trailing periods
+                - Capture the core topic or intent, not a generic summary
+                - Do not include phrases like "Chat about" or "Conversation on"
+                - Return ONLY the title text, nothing else
+                User's message:{user}"""
+
     resposce = llm.invoke(prompt)
     return resposce.content
 
