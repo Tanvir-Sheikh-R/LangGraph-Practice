@@ -86,7 +86,7 @@ with st.sidebar:
 
 
 
-st.image("""sre\\Image\\logo_green.svg""", width=80)
+st.image("""src\Image\logo_green.svg""", width=80)
 st.markdown("""# <h1>Personal AI Assistant</h1>""", unsafe_allow_html=True)
 
 st.markdown('<p style="color: #6B8E55">Hi, Whats your agenda today?</p>', unsafe_allow_html=True)

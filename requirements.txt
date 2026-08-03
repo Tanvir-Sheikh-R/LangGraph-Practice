@@ -1,7 +1,8 @@
+streamlit
 langgraph
 dotenv
 langchain
 ipykernel
 ipython
 langchain-groq
-streamlit
+
