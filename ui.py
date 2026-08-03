@@ -49,7 +49,7 @@ def load_page_style():
     [data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarCustom"]) [data-testid="stChatMessageAvatarCustom"] {
         border: 1px solid #7D936F;
         background-color: #7D936F;
-        color: #CC785C !important;
+        color: #7D936F !important;
     }
      [data-testid="stIconMaterial"] {
         color: white !important;
@@ -65,6 +65,11 @@ def load_page_style():
     [data-testid = "stHeaderActionElements"]{
         display: none;
     }
-    
+
+    [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
+    [data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"] {
+        color: #7D936F !important;
+        visibility: visible !important;
+    }
     </style>
     """, unsafe_allow_html=True)
