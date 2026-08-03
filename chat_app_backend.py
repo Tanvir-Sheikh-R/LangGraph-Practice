@@ -9,7 +9,7 @@ from langchain_core.messages import HumanMessage
 
 
 def get_summary_for_chatHead(user: str, ai:str):
-    prompt = f"user asked: {user}, AI answered: {ai}, give a 1 line short summery from this conversation to use in title of this conversation"
+    prompt = f"user asked: {user}, AI answered: {ai}, give a 2-5 word short summery from this conversation to using in title"
     resposce = llm.invoke(prompt)
     return resposce.content
 
