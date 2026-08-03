@@ -84,14 +84,16 @@ with st.sidebar:
             
 
 
-import os
+# import os
 
-path = "src/image/logo_green.svg"
-st.write("CWD:", os.getcwd())
-st.write("Exists:", os.path.exists(path))
-st.write("Files in src/image:", os.listdir("src/image") if os.path.exists("src/image") else "src/image not found")
+# path = "src/image/logo_green.svg"
+# st.write("CWD:", os.getcwd())
+# st.write("Exists:", os.path.exists(path))
+# st.write("Files in src/image:", os.listdir("src/image") if os.path.exists("src/image") else "src/image not found")
 
-st.image(path, width=80)
+# st.image(path, width=80)
+
+st.image("src/logo_green.svg", width=80)
 st.markdown("""# <h1>Personal AI Assistant</h1>""", unsafe_allow_html=True)
 
 st.markdown('<p style="color: #6B8E55">Hi, Whats your agenda today?</p>', unsafe_allow_html=True)
