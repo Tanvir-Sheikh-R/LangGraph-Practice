@@ -71,7 +71,7 @@ def load_page_style():
         }
 
         [data-testid="stSidebarCollapseButton"] [data-testid="stIconMaterial"],
-        [data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"] {
+        [data-testid="stExpandSidebarButton"] [data-testid="stIconMaterial"]  {
             color: #7D936F !important;
             visibility: visible !important;
         }

@@ -6,3 +6,9 @@ ipykernel
 ipython
 langchain-groq
 langgraph-checkpoint-sqlite
+chromadb
+langchain-community
+langchain-chroma
+sentence-transformers
+pypdf
+python-docx
