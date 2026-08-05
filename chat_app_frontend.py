@@ -1,7 +1,7 @@
 import streamlit as st
 from ui import load_page_style
 import numpy as np
-from chat_app_backend import chat, checkpointer,get_summary_for_chatHead
+from chat_app_backend import chat, checkpointer,get_summary_for_chatHead, retrive_all_threads
 from langgraph.graph import StateGraph
 from langchain_core.messages import HumanMessage, AIMessage
 import uuid
@@ -42,7 +42,10 @@ if 'thread_id' not in st.session_state:
     st.session_state['thread_id'] = generate_thread_id()
 
 if 'thread_id_list' not in st.session_state:
+    # if i want to use sqlite to store my conversations
+    # st.session_state['thread_id_list'] = retrive_all_threads()
     st.session_state['thread_id_list'] = []
+
 
 add_thread(st.session_state['thread_id'])
 
@@ -64,9 +67,8 @@ with st.sidebar:
         if conversation:
             user = conversation[0].content
             summery = get_summary_for_chatHead(user)
-            
 
-            if st.button(summery, width='stretch'):
+            if st.button(summery, width='stretch', key=id):
                 response = load_conversation(id)
                 temp_message = []
 
@@ -86,7 +88,6 @@ st.image("src/logo_green.svg", width=80)
 st.markdown("""# <h1>Personal AI Assistant</h1>""", unsafe_allow_html=True)
 
 st.markdown('<p style="color: #6B8E55">Hi, Whats your agenda today?</p>', unsafe_allow_html=True)
-
 
 for messages in st.session_state['message']:
     if messages["role"] == 'assistant':

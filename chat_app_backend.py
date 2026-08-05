@@ -1,4 +1,5 @@
 from langgraph.graph import StateGraph, START, END
+from langgraph.checkpoint.sqlite import SqliteSaver
 from langgraph.checkpoint.memory import InMemorySaver
 from typing import TypedDict, Annotated
 from langgraph.graph.message import add_messages
@@ -7,6 +8,7 @@ from dotenv import load_dotenv
 from langchain_groq import ChatGroq
 from groq import RateLimitError, APIError, APIConnectionError
 from langchain_core.messages import HumanMessage, AIMessage
+import sqlite3
 
 
 def get_summary_for_chatHead(user: str):
@@ -23,6 +25,14 @@ def get_summary_for_chatHead(user: str):
     return resposce.content
 
 
+# if i want to use sqlite to store my conversations
+def retrive_all_threads():
+    all_thread = set()
+    for id in checkpointer_sqlite.list(None):
+        all_thread.add(id.config['configurable']['thread_id'])
+    return list(all_thread)
+
+    
 class MessageState(TypedDict):
     message : Annotated[list[BaseMessage], add_messages]
 
@@ -59,8 +69,16 @@ graph.add_node('chat_message', chat_message)
 graph.add_edge(START, 'chat_message')
 graph.add_edge('chat_message', END)
 
-checkpointer = InMemorySaver()
-chat = graph.compile(checkpointer=checkpointer)
+
+
+# if i want to use sqlite to store my conversations
+connection = sqlite3.connect('chatbot.bd', check_same_thread=False)
+checkpointer_sqlite = SqliteSaver(conn=connection)
+
+
+
+checkpointer_inMemory = InMemorySaver()
+chat = graph.compile(checkpointer=checkpointer_inMemory)
 
 # responce = chat.invoke(
 #             {'message': '2+2'}, 
