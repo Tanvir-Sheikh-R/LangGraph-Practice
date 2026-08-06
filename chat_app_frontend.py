@@ -4,7 +4,7 @@ import os
 from ui import load_page_style
 import numpy as np
 from chat_app_backend import chat, checkpointer_inMemory ,get_summary_for_chatHead, retrive_all_threads
-from chat_app_backend_rag import rag_chat, list_indexed_docs, ingest_documents
+from chat_app_backend_rag import rag_chat, list_indexed_docs, ingest_documents, delete_docs, clear_all_docs
 from langgraph.graph import StateGraph
 from langchain_core.messages import HumanMessage, AIMessage
 import uuid
@@ -50,6 +50,7 @@ if 'thread_id_list' not in st.session_state:
     st.session_state['thread_id_list'] = []
 
 if 'indexed_docs' not in st.session_state:
+    clear_all_docs()
     st.session_state['indexed_docs'] = list_indexed_docs()
 
 if 'use_rag' not in st.session_state:
@@ -102,13 +103,22 @@ with st.sidebar:
         accept_multiple_files=True,
     )
 
-    if uploaded_files:
+    uploaded_names = {up.name for up in uploaded_files} if uploaded_files else set()
+    indexed_names = set(st.session_state.indexed_docs)
+
+    stale = indexed_names - uploaded_names
+    if stale:
+        if delete_docs(list(stale)):
+            st.session_state.indexed_docs = list_indexed_docs()
+
+    new_files = [up for up in uploaded_files if up.name not in indexed_names] if uploaded_files else []
+    if new_files:
         saved_names = []
         with st.spinner('Loading embedder and indexing documents...'):
             paths = []
             tmpdir = tempfile.mkdtemp()
             try:
-                for up in uploaded_files:
+                for up in new_files:
                     tmp_path = os.path.join(tmpdir, up.name)
                     with open(tmp_path, 'wb') as f:
                         f.write(up.getvalue())
@@ -117,7 +127,7 @@ with st.sidebar:
             finally:
                 import shutil
                 shutil.rmtree(tmpdir, ignore_errors=True)
-        st.session_state['indexed_docs'] = list_indexed_docs()
+        st.session_state.indexed_docs = list_indexed_docs()
         st.success(f'Indexed: {", ".join(saved_names)}')
 
     if st.session_state.indexed_docs:

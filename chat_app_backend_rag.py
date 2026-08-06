@@ -259,3 +259,16 @@ def delete_docs(doc_names: list[str]) -> bool:
         return True
     except Exception:
         return False
+
+
+def clear_all_docs() -> bool:
+    try:
+        client = chromadb.PersistentClient(path=CHROMA_DIR)
+        try:
+            client.delete_collection("documents")
+        except Exception:
+            pass
+        client.get_or_create_collection("documents")
+        return True
+    except Exception:
+        return False
