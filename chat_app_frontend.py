@@ -92,12 +92,12 @@ with st.sidebar:
                 st.session_state['message'] = temp_message
             
 
-
+# ******************************* RAG Features *******************************
     st.divider()
     st.header('Knowledge Base')
 
     uploaded_files = st.file_uploader(
-        'Upload documents (PDF, DOCX, TXT, MD)',
+        'Upload documents',
         type=['pdf', 'docx', 'txt', 'md'],
         accept_multiple_files=True,
     )
